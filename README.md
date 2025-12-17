@@ -1,7 +1,4 @@
-# Network Programming Final Project - Game Store System
-
-這是一個整合 **遊戲大廳 (Lobby)**、**遊戲商城 (Store)** 與 **開發者平台 (Developer Platform)** 的完整系統。
-本專案展示了網路程式設計的核心技術，包含多執行緒伺服器、自訂通訊協定、檔案傳輸（斷點續傳）、版本控管以及擴充插件（Plugin）架構。
+# Network Programming Final Project 
 
 ---
 
@@ -20,18 +17,6 @@
    * [4. 加分項目：Plugin（聊天室）](#4-加分項目plugin聊天室)
 7. [疑難排解](#-疑難排解)
 
----
-
-## ✨ 專案特色
-
-* **多角色系統**：獨立的 Developer 與 Player 客戶端，權限分開管理。
-* **即時多人連線**：支援 TCP Socket 長連線，實現低延遲的多人遊戲同步。
-* **版本控管**：玩家須更新至最新版本才能進入房間，避免版本衝突。
-* **擴充插件（Plugins）**：
-
-  * 獨創 **Dual Port 架構**，遊戲與插件（如聊天室）運行於不同 Port。
-  * 插件以獨立 Process 執行，不影響主遊戲穩定性。
-  * 支援在不修改遊戲原始碼的情況下，外掛聊天功能。
 
 ---
 
@@ -78,23 +63,19 @@ NP_HW3/
 
 ---
 
-## ⚙️ 連線與 IP 設定（重要!）
-
-> **若 Server 與 Client 在同一台電腦，可跳過此步驟。**
-> 若 Server 在遠端（如 Linux 工作站），Client 在本機（Windows），請務必修改以下設定。
+## ⚙️ 連線與 IP 設定
 
 ### Server 端（`server/main_server.py`）
 
-* 找到 `PUBLIC_IP` 變數（或在 `player_create_room` 函式中）。
-* 將預設的 `"127.0.0.1"` 改為 Server 的實體 IP（例如 `140.113.x.x`）。
-
-**原因：** Server 需要告訴 Client「房間實際開在哪個 IP」。
+* 找到 `game_host` 變數（或在 `player_create_room` 函式中）。
+* 將預設的IP 改為 Server 的實體 IP（例如 `140.113.x.x`）。
+* 若遇到撞port等情形，找到 `port`或`db_port`變數並修改
 
 ### Client 端（`developer_client.py` & `lobby_client.py`）
 
 * 找到 `SERVER_HOST` 變數。
 * 修改為 Server 的實體 IP。
-
+* 若遇到撞port等情形，找到 `port`變數並修改
 ---
 
 ## 🚀 快速啟動指南
@@ -140,7 +121,7 @@ python reset_system.py
 # 輸入 'y' 確認
 ```
 
-> ⚠️ 重置後請務必 **重啟 DB Server 與 Main Server**。
+>  重置後請務必 **重啟 DB Server 與 Main Server**。
 
 ---
 
@@ -157,12 +138,8 @@ python reset_system.py
 * Max Players: `2`
 * 檔案路徑（關鍵）：`games/gomoku/main.py`
 
-> ⚠️ 注意：必須指向 **.py 檔案**，不能是資料夾。
+> 注意：必須指向 **.py 檔案**，不能是資料夾。
 
-3. 重複上述步驟上架 **Chase**：
-
-   * Max Players: `3`
-   * Path: `games/chase_gui/main.py`
 
 ---
 
@@ -217,8 +194,3 @@ python reset_system.py
 
 ---
 
-## ❓ 疑難排解
-
-* 無法連線：請再次確認 Server / Client 的 IP 設定是否正確。
-* 遊戲無法啟動：確認已下載最新版本，且 Python / Pygame 安裝完成。
-* 聊天室未出現：確認 Plugin 已成功安裝，且未被防火牆阻擋。
